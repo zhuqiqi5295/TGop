@@ -13,6 +13,7 @@ from telegram.ext import Updater, CommandHandler
 # pip install python-telegram-bot
 # pip install telethon
 # pip install toml
+# pip install nest_asyncio
 
 import telegram
 import asyncio
@@ -20,12 +21,9 @@ import asyncio
 from telethon import TelegramClient, events
 
 import os
-
-import subprocess
 import toml
 
 import asyncio
-import nest_asyncio
 
 from telegram.request import HTTPXRequest
 
@@ -46,11 +44,7 @@ class fmarket_bot(object):
 
         os.makedirs(self.download_dir, exist_ok=True)  # 确保目录存在
 
-        nest_asyncio.apply()
-
-        self.loop = asyncio.get_event_loop()
-
-    async def main(self):
+    def main(self):
 
         request = HTTPXRequest(proxy=self.proxy_url)
 
@@ -66,7 +60,7 @@ class fmarket_bot(object):
         )
         self.application.add_handler(MessageHandler(filters.VIDEO, self.video_handler))
 
-        await self.application.run_polling()
+        self.application.run_polling()
 
     def read_toml_file(self, file_path):
         """
@@ -127,17 +121,7 @@ class fmarket_bot(object):
         """
         print(log_message.strip())
 
-    async def main1(self):
-
-        while True:
-            await asyncio.sleep(30)
-            await self._send_async("zhuqiqi123")
-
-    def run_all(self):
-        self.loop.run_until_complete(self.main())
-        self.loop.run_until_complete(self.main1())
-
 
 if __name__ == "__main__":
 
-    fmarket_bot().run_all()
+    fmarket_bot().main()
