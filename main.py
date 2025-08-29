@@ -27,6 +27,8 @@ import toml
 import asyncio
 import nest_asyncio
 
+from telegram.request import HTTPXRequest
+
 
 class fmarket_bot(object):
 
@@ -50,9 +52,11 @@ class fmarket_bot(object):
 
     async def main(self):
 
+        request = HTTPXRequest(proxy=self.proxy_url)
+
         # 创建应用
         self.application = (
-            Application.builder().token(self.token).proxy(self.proxy_url).build()
+            Application.builder().token(self.token).request(request).build()
         )
 
         # 注册处理器
